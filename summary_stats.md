@@ -33,3 +33,19 @@ done
 ```
 This calculates Fst for every pairwise comaprison so there will be a file named popX_popY and one names popY_popX. Obviously estimates should be exactly the same and we only need to keep one file at the end.
 This also outputs a .log file for every comparison from which we can get the mean and mean weighted Weir and Cockerham Fst estimate. We can also calculate it ourselves though.
+
+# Calculating Tajima's D
+
+We did this for two different window sizes: 10kb and 40kb
+
+```
+for p in {popname}_{speciesname}.pop
+do
+ vcftools --vcf file.vcf --haploid --keep $p --TajimaD 10000 --out 10kb_$p
+done
+
+for p in {popname}_{speciesname}.pop
+do
+ vcftools --vcf file.vcf --haploid --keep $p --TajimaD 40000 --out 10kb_$p
+done
+```
