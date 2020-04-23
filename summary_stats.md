@@ -1,6 +1,6 @@
 # Calculating summary statistics for Epichloe population data
 
-We are using vcftools with an added --haploid switch to allow computation of pi and Fst and Tajima's D for haploid data.
+We are using vcftools (v. 0.1.16) with an added --haploid switch to allow computation of pi and Fst and Tajima's D for haploid data.
 Details are here: https://github.com/vcftools/vcftools/pull/69
 
 # What files we are working with
@@ -48,4 +48,37 @@ for p in {popname}_{speciesname}.pop
 do
  vcftools --vcf file.vcf --haploid --keep $p --TajimaD 40000 --out 10kb_$p
 done
+
+```
+# Calculating LD along genome
+
+We split our vcf file into the different populations
+
+```
+for p in {popname}_{speciesname}.pop
+do
+ vcftools --vcf file.vcf --keep $p --recode --recode-INFO-all --out $p
+done
+```
+
+We create map and ped files using plink (v. 1.90) and filter for minor allele frequency (maf 0.05)
+
+```
+for p in {popname}_{speciesname}.pop
+do
+ plink --vcf $p.recode.vcf  --allow-extra-chr --const-fid --keep-allele-order  --recode --out $p
+ plink --file $p --allow-extra-chr --maf 0.05 --recode --out $p_maf05
+done
+```
+
+We need to edit the map file to make the second column have seq numbers and chromosome names 1-7
+
+```
+cp $p_maf05.map $p_maf05.mapOLD
+awk '$2=NR' OFS="\t" $p_maf05.mapOLD > $p_maf05.map
+
+```
+We calculate LD in 10kb windows
+```
+plink --file $p_maf05 --allow-extra-chr --r2 --ld-window-kb 10000 --ld-window-r2 0  --out $p_maf05
 ```
