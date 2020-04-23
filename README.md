@@ -1,2 +1,2 @@
-# Epichloe_genomics
-methods, scripts and instructions to work on Epichloe data
+# Epichloe genomics
+ This repository contains descriptions of how genomic data was processed and analyzed
