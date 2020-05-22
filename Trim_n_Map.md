@@ -25,7 +25,7 @@ Mapping statistics and filtering were performed using ```sambamba v0.6.6``` as f
 sambamba flagstat ${TMPDIR}/${name}.sort.bam > ${path_out}stats/${name}
 ```
 
-Low quality reads were removed and duplicates were marked as follows 
+Low quality alignments (Qual >10) were removed and duplicates were marked as follows 
 ```
 sambamba view  -F "mapping_quality >= "${Qual} ${TMPDIR}/${name}.sort.bam -o ${TMPDIR}/${name}_sort_${Qual}.bam -t ${proc} -l 0 -f bam 
 gatk MarkDuplicates --TMP_DIR=${TMPDIR} --INPUT=${TMPDIR}/${name}_sort_${Qual}.bam --OUTPUT=${path_out}${name}_sort_${Qual}_dup.bam --METRICS_FILE=${path_out}stats_dup/${name} --VALIDATION_STRINGENCY=LENIENT --MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1024
