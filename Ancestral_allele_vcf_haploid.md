@@ -6,13 +6,14 @@ http://wasabiapp.org/vbox/data/ngg2016/21/Day2Session1.Genomicalignmentancestral
 
 You need a basic working knowledge of the command line and experience with vcftools and bcftools would be beneficial.
 
-You need a biallellic SNP vcf file (remove indels and non-biallelic SNPs)
-e.g biallelic SNPs only
+You need a biallellic SNP vcf file (remove indels and non-biallelic SNPs).
+
+e.g vcftools code to remove SNPs with more than 2 allele
 
 ```
 vcftools --vcf file.vcf  --max-alleles 2 --recode --recode-INFO-all --out file_BI
 ```
-e.g SNPs only
+e.g vcftools code to remove indels
 ```
 vcftools --vcf file_BI.recode.vcf  ---remove-indels --recode --recode-INFO-all --out file_BI_SNPS
 ```
