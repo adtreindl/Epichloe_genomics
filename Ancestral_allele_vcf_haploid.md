@@ -22,14 +22,13 @@ Then create a vcf file for the outgroup individual only
 ```
 vcftools --vcf file_BI_SNPS.recode.vcf --indv outgroupIDname --recode --recode-INFO-all --out outgroupIDname
 ```
-Create a table of SNP positions and alleles using bcftools 
+Then create a table of SNP positions and alleles using bcftools 
 ```
 bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%GT]\n' outgroupIDname.recode.vcf  > file.tab
 ```
 Create a table file with ancestral allele information.
 Here we select the reference allele (REF) or the variant allele (ALT) and put it in the 5th column. If the site is not covered by our outgroup reads, i.e. missing '.', then we record it as missing.
-
-for Haploid    
+  
 ```
 awk '{OFS="\t";if($5=="0"){print $1,$2,$3,$4,$3} \
 	if($5=="1"){print $1,$2,$3,$4,$4} \
