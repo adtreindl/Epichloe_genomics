@@ -2,8 +2,8 @@
 
 NB These command lines are snipets from submission scripts optimised for our HPC server, they provide a summary of the commands and the arguments used. 
 
-# Trimming Illumina Sequence Data 
-Illumina sequence data was trimmed using ```trimmomatic v0.35``` with the following command
+# Adaptor removal and trimming
+Reads were trimmed with ```trimmomatic v0.35``` to remove adaptor sequence and low quality sequence. Reads were trimmed if the base quality at the beginning or end of the read was <3, and only reads of more than 50 bp were retained.
 ```
 trimmomatic PE -threads 2 -phred33 ${data}20180730.A-AT_pool1_${name}_R1.fastq.gz ${data}20180730.A-AT_pool1_${name}_R2.fastq.gz ${out}/${name}.R1.trim.fq.gz ${out}/logs/${name}.R1.un.fq.gz ${out}/${name}.R2.trim.fq.gz ${out}/logs/${name}.R2.un.fq.gz ILLUMINACLIP:${adaptor}:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:50 > ${out}/logs/${name}.trimmo.log  2> ${out}/logs/${name}.trimmo.err
 ```
