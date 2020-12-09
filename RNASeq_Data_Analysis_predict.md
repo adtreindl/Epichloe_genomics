@@ -113,7 +113,7 @@ interproscan.sh -dp -iprlookup --goterms --pathway \
 
 ```
 ## Identify putative effector proteins
-We used signalP and effectoP to identify possible effector protiens that may play an important role in plant-pathogen interaction. SignalP searches for signal peptides. The fasta output from signalP was used to run the online version of ```effectorP 2.0```<http://effectorp.csiro.au/>  to find fungal effectors.
+We used signalP and effectoP to identify possible effector protiens that may play an important role in plant-pathogen interaction. SignalP searches for signal peptides. The fasta output from signalP was used to run the online version of ```effectorP 2.0``` (<http://effectorp.csiro.au/>)  to find fungal effectors.
 
 ```
 /path_to_signalp/4.1/signalp -m Ec_signalP.fa -n Ec_signalP.gff /path_to_predict_results/Epichloe_clarkii.proteins.fa > Ec_signalP.out
