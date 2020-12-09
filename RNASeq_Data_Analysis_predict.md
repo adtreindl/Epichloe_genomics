@@ -1,5 +1,5 @@
 # RNA seq data analysis 
-This doc contains a step-by-step account of the analysis of RNA seq data using the funannotate pipeline https://funannotate.readthedocs.io/en/latest/ 
+This document contains a step-by-step account of the analysis of RNA seq data using the funannotate pipeline https://funannotate.readthedocs.io/en/latest/ and annotation of putative proteins using Inerproscan, signalP and effectorP.
 
 Here we have provided examples of code for each step. The code chunks will not run automatically "as is" it will need to be edited by the user.
 
@@ -10,6 +10,8 @@ cufflinks
 star v2.5.3a
 stringtie v1.3.3b
 repeatmasker v4.0.6 
+signalP v4.1
+effectorP v2.0
 
 ## Check RNA sequence read quality with ```fastqc```
 Example code
@@ -117,3 +119,5 @@ interproscan.sh -dp -iprlookup --goterms --pathway \
 	
 
 ```
+## Identify putative effector proteins
+We used signalP and effectoP to identify possible effector protiens thatt may play an important role in plant-pathogen interaciton
