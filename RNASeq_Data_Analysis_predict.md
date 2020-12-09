@@ -4,14 +4,7 @@ This document contains a step-by-step account of the analysis of RNA seq data us
 Here we have provided examples of code for each step. The code chunks will not run automatically "as is" it will need to be edited by the user.
 
 Here is a list of the software used (no including all dependencies)
-funnanotate
-fastqc v0.11.4
-cufflinks
-star v2.5.3a
-stringtie v1.3.3b
-repeatmasker v4.0.6 
-signalP v4.1
-effectorP v2.0
+funnanotate v1.7.0, fastqc v0.11.4, cufflinks, star v2.5.3a, stringtie v1.3.3b, repeatmasker v4.0.6 , signalP v4.1, effectorP v2.0
 
 ## Check RNA sequence read quality with ```fastqc```
 Example code
@@ -120,4 +113,10 @@ interproscan.sh -dp -iprlookup --goterms --pathway \
 
 ```
 ## Identify putative effector proteins
-We used signalP and effectoP to identify possible effector protiens thatt may play an important role in plant-pathogen interaciton
+We used signalP and effectoP to identify possible effector protiens that may play an important role in plant-pathogen interaction. SignalP searches for signal peptides. The fasta output from signalP was used to run the online version of ```effectorP 2.0```<http://effectorp.csiro.au/>  to find fungal effectors.
+
+```
+/path_to_signalp/4.1/signalp -m Ec_signalP.fa -n Ec_signalP.gff /path_to_predict_results/Epichloe_clarkii.proteins.fa > Ec_signalP.out
+
+```
+
