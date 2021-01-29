@@ -1,9 +1,9 @@
 # RNA seq data analysis 
-This document contains a step-by-step account of the analysis of RNA seq data using the funannotate pipeline https://funannotate.readthedocs.io/en/latest/ and annotation of putative proteins using Inerproscan, signalP and effectorP.
+This document contains a step-by-step account of how we analyzed the RNA seq data, predicted putative genes using the funannotate pipeline https://funannotate.readthedocs.io/en/latest/ and annotated putative proteins using Inerproscan, signalP and effectorP.
 
 Here we have provided examples of code for each step. The code chunks will not run automatically "as is" it will need to be edited by the user.
 
-Here is a list of the software used (no including all dependencies)
+Here is a list of the software used (not including all dependencies)
 funnanotate v1.7.0, fastqc v0.11.4, cufflinks, star v2.5.3a, stringtie v1.3.3b, repeatmasker v4.0.6 , signalP v4.1, effectorP v2.0
 
 ## Check RNA sequence read quality with ```fastqc```
@@ -67,16 +67,15 @@ done<RNAseq_sample.list
 
 ```
 ## Merge all sample gtf files to create a single non redundant file 
-First create a list of all the sample.gtf files to merge and then merege gfts using ```stringtie``` 
+First we create a list of all the sample.gtf files to merge and then merege gfts using ```stringtie``` 
 ```
 stringtie --merge Ec_transcript.list -o Ec_merged.gtf
 
 ```
+# Predict and annotate putative genes
+We used funnanotate pipeline to predict putative protiens and then annotated these protiens using Interproscan.
 
-## Use funannotate to predict genes
-Use RNAseq data for training and then use this to predict genes across the genome using funannotate
-
-## Create a Repeat masked geneome file using ```repeatmasker```
+## Create a Repeat masked geneome file using ```funannotate mask```
 First we shorten the chromosome names using ```funannotate sort```. Change "Ecl_1605_22_1" to "Chr1"
 ```
 funannotate sort -i Ecl1605_22_Epichloe_clarkii_1605_22_45692596_v2.fna  -b Chr -o Ecl1605_newScaffname.fna
@@ -84,25 +83,22 @@ funannotate mask -i Ecl1605_newScaffname.fna -o Ecl1605_newScaffname_FUNmasked_n
 ```
 
 ## Get gene predictons with ```funannotate predict```
-First convert the chromosome names back to original names on the funannotate masked file (FUNmasked.fna), so the information in the bams is matching the genome.
-Then run predict with as follows, this creates gft and protiens.fa 
-A merged bam file eas created using the mapped bams and samtools merge (e.g. samtools merge -b RNAseq_bam.list merged.out.bam).
-The gff file was produced by another group using (Winter et al) using the funnannotate pipeline.
+First we converted the chromosome names back to original names on the funannotate masked file (FUNmasked.fna), so the information in the bams is matching the genome. Then we ran funnanotate predict using: a merged bam file (created using the mapped bams and samtools merge, e.g. samtools merge -b RNAseq_bam.list merged.out.bam), a gff file that was produced by another group (Winter et al) using the funnannotate pipeline and the merged transcripts file produced using stringtie (see above). This step outputs a gft and protiens.fa. 
 
 ```
-bsub -W 24:00 -n 4 funannotate predict -i /cluster/work/gdc/shared/p427/GenAccFiles/FunMask/Ecl1605_FUNmasked_noLib.fna \
--o /cluster/scratch/stapleyj/Epichloe/funannotate/Ec \
+bsub -W 24:00 -n 4 funannotate predict -i /path_to_file/Ecl1605_FUNmasked_noLib.fna \
+-o /path_to_out_dir/ \
 -s "Epichloe_clarkii" --name Ecl_ \
---rna_bam /cluster/work/gdc/shared/p427/RNAseq/merged_bams/H_merged.out.bam \
---augustus_gff  /cluster/work/gdc/shared/p427/Genomes/Ec/Epichloe_clarkii_Hl.gff3 \
---stringtie /cluster/work/gdc/shared/p427/RNAseq/transcripts/Ec_merged_noG.gtf \
+--rna_bam /path_to_bam/H_merged.out.bam \
+--augustus_gff  /path_to_gff/Epichloe_clarkii_Hl.gff3 \
+--stringtie /path_to_transcripts/Ec_merged.gtf \
 --busco_db sordariomycetes \
 --cpus 12
 
 ```
 
 ## Run ```Iterproscan``` to annotate the gene models
-using protiens.fa files created in previous step
+Using the protiens.fa files created in the predict step
 
 ```
 interproscan.sh -dp -iprlookup --goterms --pathway \
@@ -112,8 +108,8 @@ interproscan.sh -dp -iprlookup --goterms --pathway \
 	
 
 ```
-## Identify putative effector proteins
-We used signalP and effectoP to identify possible effector protiens that may play an important role in plant-pathogen interaction. SignalP searches for signal peptides. The fasta output from signalP was used to run the online version of ```effectorP 2.0``` (<http://effectorp.csiro.au/>)  to find fungal effectors.
+# Identify putative effector proteins
+We used signalP and effectoP to identify possible effector protiens that can play an important role in plant-pathogen interactions. SignalP searches for signal peptides. The fasta output from signalP was used to run the online version of ```effectorP 2.0``` (<http://effectorp.csiro.au/>)  to find fungal effectors.
 
 ```
 /path_to_signalp/4.1/signalp -m Ec_signalP.fa -n Ec_signalP.gff /path_to_predict_results/Epichloe_clarkii.proteins.fa > Ec_signalP.out
