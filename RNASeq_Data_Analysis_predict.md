@@ -83,7 +83,7 @@ funannotate mask -i Ecl1605_newScaffname.fna -o Ecl1605_newScaffname_FUNmasked_n
 ```
 
 ## Get gene predictons with ```funannotate predict```
-First we converted the chromosome names back to original names on the funannotate masked file (FUNmasked.fna), so the information in the bams is matching the genome. Then we ran funnanotate predict using: a merged bam file (created using the mapped bams and samtools merge, e.g. samtools merge -b RNAseq_bam.list merged.out.bam), a gff file that was produced by another group (Winter et al) using the funnannotate pipeline and the merged transcripts file produced using stringtie (see above). This step outputs a gft and protiens.fa. 
+First we converted the chromosome names back to original names on the funannotate masked file (FUNmasked.fna), so the information in the bams is matching the genome. Then we ran funnanotate predict using: a merged bam file (created using the mapped bams and samtools merge, e.g. samtools merge -b RNAseq_bam.list merged.out.bam), a gff file that was produced by another group (Winter et al) using the funnannotate pipeline, and the merged transcripts file produced using stringtie (see above). This step outputs a .gft and protiens.fa. 
 
 ```
 bsub -W 24:00 -n 4 funannotate predict -i /path_to_file/Ecl1605_FUNmasked_noLib.fna \
