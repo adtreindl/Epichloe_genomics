@@ -116,7 +116,8 @@ We used signalP and effectoP to identify possible effector protiens that can pla
 
 ```
 
-#  Identify orthologous genes
+
+##  Identify orthologous genes
 We used proteinortho v6.0beta to identify orthologous genes between E. clarkii and E. typhina. This analyses uses blast v2.7.1. and takes protein or nucleotide fasta files as input. We also identified shared orthologes between E. clarkii, E. typhina and the outgroup E. festucae genome.
 Use -p=blastn in case sequences are represented as nucleotides.
 
@@ -125,4 +126,12 @@ proteinortho6.pl -project=[out_file_prefix] path_to_file/Epichloe_clarkii.protei
 
 proteinortho6.pl -project=[out_file_prefix] -p=blastn path_to_file/Epichloe_clarkii.mrna-transcripts.fa path_to_file/Epichloe_typhina.mrna-transcripts.fa path_to_file/Ef_nodups.fa
 
+```
+
+
+##  BUSCO analysis
+The completeness of each genome assembly was estimated with BUSCO v3.0.2 using the library ascomycota_odb9 and the species model verticillium_longisporum1 with the Augustus optimization mode for self-training turned on (--long)
+
+```
+run_BUSCO.py  -c 10 -o [out_file_prefix]  -i path_to_file/Ecl1605_22_Epichloe_clarkii_1605_22_45692596_v2.fna  --long -sp verticillium_longisporum1 -l path_to_file/databases/busco/ascomycota_odb9  -m genome > busco.log 2> busco.err
 ```
