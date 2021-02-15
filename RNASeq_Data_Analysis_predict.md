@@ -4,7 +4,7 @@ This document contains a step-by-step account of how we analyzed the RNA seq dat
 Here we have provided examples of code for each step. The code chunks will not run automatically "as is" it will need to be edited by the user.
 
 Here is a list of the software used (not including all dependencies)
-funnanotate v1.7.0, fastqc v0.11.4, cufflinks, star v2.5.3a, stringtie v1.3.3b, repeatmasker v4.0.6 , signalP v4.1, effectorP v2.0
+funnanotate v1.7.0, fastqc v0.11.4, cufflinks v2.1.1, star v2.5.3a, stringtie v1.3.3b, repeatmasker v4.0.6 , signalP v4.1, effectorP v2.0
 
 ## Check RNA sequence read quality with ```fastqc```
 Example code
@@ -20,7 +20,7 @@ https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2
 
 ## Generate files for ```star``` and ```funannotate```
 
-Convert reference genome gff to gtf using ```cufflinks```
+Convert reference genome gff to gtf using ```cufflinks v2.1.1```
 ```
 gffread /path_to_file/Epichloe_clarkii.gff3 -T -F -o Epichloe_clarkii.gtf
 
